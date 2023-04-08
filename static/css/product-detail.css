@@ -1,0 +1,172 @@
+.content .container .product-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 25px 0;
+}
+
+@media (max-width:767px) {
+  .content .container .product-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .content .container .product-info .all-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+  }
+  .content .container .product-info .all-data p:first-of-type {
+    margin: 15px 0 0 !important;
+  }
+  .content .container .product-info .all-data p.price {
+    margin: 15px 0 !important;
+  }
+}
+
+.content .container .product-info .image {
+  max-width: 100%;
+}
+
+.content .container .product-info .image img {
+  width: 300px;
+}
+
+.content .container .product-info .all-data {
+  padding: 15px 0;
+}
+
+.content .container .product-info .all-data p {
+  margin: 20px 0;
+}
+
+.content .container .product-info .all-data p.price {
+  font-weight: bold;
+}
+
+.content .container .product-info .all-data .control-btns {
+  display: flex;
+  gap: 5px;
+}
+
+.content .container .product-info .all-data .control-btns button.update-cart {
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background-color: #b5aeae; 
+}
+
+.content .container .product-info .all-data .control-btns button.update-cart:hover {
+  color: #fff;
+  background-color: #2196F3;
+}
+
+.content .container .product-info .all-data .control-btns a {
+  padding: 5px 15px;
+  border-radius: 3px;
+  background-color: #b5aeae; 
+}
+
+.content .container .product-info .all-data .control-btns a:first-of-type {
+  color: #6e6c6c;
+}
+
+.content .container .product-info .all-data .control-btns a:first-of-type:hover {
+  color: #fff;
+  background-color: #8b8b8b;
+}
+
+.content .container .product-info .all-data .control-btns a:last-of-type {
+  color: #f00;
+}
+
+.content .container .product-info .all-data .control-btns a:last-of-type:hover {
+  color: white;
+  background-color: #f00;
+}
+
+.content .container .header {
+  padding: 25px 15px;
+  box-shadow: 1px 3px 5px 2px rgba(214, 214, 214, 1);
+}
+
+.content .container .header a {
+  padding: 8px;
+  color: gray;
+  border-radius: 5px;
+  width: fit-content;
+  border: 2px solid gray;
+}
+
+.content .container .header a:hover {
+  color: white;
+  background-color: gray;
+}
+
+/* Start The product-form file Style */
+
+.content .container .product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  box-shadow: 1px 3px 5px 2px rgba(214, 214, 214, 1);
+}
+
+.content .container .product-form div.controls {
+  margin: 10px 0;
+}
+
+.content .container .product-form textarea {
+  width: 100%;
+  resize: none;
+  padding: 10px;
+}
+
+.content .container .product-form input:not(input[type="checkbox"]),
+.content .container .product-form select {
+  width: 100%;
+  padding: 5px;
+}
+
+.content .container .product-form input[type="submit"] {
+  padding: 2px 3px !important;
+  width: 60px !important;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* End The product-form file Style */
+
+/* Start The delete-product form */
+
+.content .container .pro-delete-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  box-shadow: 1px 3px 5px 2px rgba(214, 214, 214, 1);
+}
+
+.content .container .del-cancel-div {
+  display: flex;
+  gap: 5px;
+}
+
+.content .container .del-cancel-div button {
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px 12px;
+  border-radius: 3px;
+  background-color: red;
+}
+
+.content .container .del-cancel-div a {
+  color: white;
+  padding: 4px 12px;
+  background-color: #9e9e9e;
+}
+
+/* End The delete-product form */

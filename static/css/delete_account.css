@@ -1,0 +1,39 @@
+.content .container .delete-form {
+  padding: 15px;
+  box-shadow: 1px 3px 5px 2px rgba(214, 214, 214, 1);
+}
+
+.content .container .delete-form h4 {
+  color: blue;
+}
+
+.content .container .delete-form p {
+  color: red;
+  padding: 15px 0;
+  font-weight: bold;
+}
+
+.content .container .delete-form div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content .container .delete-form div button,
+.content .container .delete-form div a {
+  color: white;
+  border-radius: 5px;
+}
+
+.content .container .delete-form div button {
+  cursor: pointer;
+  padding: 5px 8px;
+  border: none;
+
+  font-size: 14px;
+  background-color: red;
+}
+.content .container .delete-form div a {
+  padding: 4px 8px;
+  background-color: #9E9E9E;
+}

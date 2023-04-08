@@ -1,0 +1,179 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      <div class="checkout">
+        <form id="checkout-form">
+          {% csrf_token %}
+          <div class="checkoutForm-container" id="checkoutForm-container">
+            <div class="user-info" id="user-info">
+              <div>
+                <input type="text" name="name" placeholder="Name.." required />
+                <input type="email" name="email" placeholder="Email.." required />
+              </div>
+              <hr/>
+            </div>
+            <div class="shipping-info" id="shipping-info">
+              <p>Shipping Information: </p>
+              <hr/>
+              <div class="inputs">
+                <div>
+                  <input type="text" name="address" placeholder="Address.." required />
+                  <input type="text" name="city" placeholder="City.." required />
+                </div>
+                <div>
+                  <input type="text" name="state" placeholder="State.." required />
+                  <input type="text" name="zipcode" placeholder="Zip code.." required />
+                </div>
+              </div>
+            </div>
+            <input id="form-button" type="submit" value="Continue" />
+          </div>
+          <div class="paypal hidden" id="payment-info">
+            <small>Paypal Options</small>
+            <!-- Set up a container element for the button -->
+            <div id="paypal-button-container"></div>
+            {% comment %} <button type="button" id="make-payment">Make payment</button> {% endcomment %}
+          </div>
+        </form>
+        <div class="order-summary">
+          <a href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+          <hr/>
+          <h3>Order Summary</h3>
+          <hr/>
+          {% for item in items %}
+            <div class="pro-details">
+              <div class="pro-image">
+                <img src="{{item.product.imageURL}}" alt="Product Image" />
+                <p class="pro-title">{{item.product.name|title}}</p>
+              </div>
+              <div class="pro-data">
+                <p class="pro-price">$<span>{{item.product.price}}</span></p>
+                <p class="pro-count">x<span>{{item.quantity}}</span></p>
+              </div>
+            </div>
+            <hr/>
+          {% endfor %}
+          <div class="items-summary">
+            <h5>Items: <span>{{order.get_cart_items}}</span></h5>
+            <h5>Total: $<span>{{order.get_cart_total}}</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the PayPal JavaScript SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AWQiThxe5ZP5YqmFNGf6pF4HF1_KJea2gMOsZ-kgi3i0Zwr3uz8RIy5Z8sYG5BbMcdLkq41seoB0Ag3y&currency=USD&disable-funding=credit"></script>
+
+  <script>
+    let cartTotal = '{{order.get_cart_total}}'
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+      style: {
+        color: "blue",
+        shape: "rect",
+      },
+      
+      // Set up the transaction
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: parseFloat(cartTotal).toFixed(2)
+            }
+          }]
+        });
+      },
+
+      // Finalize the transaction
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details){
+          submitFormData();
+        });
+      }
+
+    }).render('#paypal-button-container');
+  </script>
+
+  <script type="text/javascript">
+    let shipping = "{{order.shipping}}";
+    let total = "{{order.get_cart_total}}"; // Getting the Order total price
+    
+    if (shipping == "False"){
+      document.getElementById("shipping-info").innerHTML = "";
+      document.getElementById("shipping-info").style.marginTop = "-15px";
+    }
+    
+    if(user != "AnonymousUser"){ // Means that the user is logged in
+      document.getElementById("user-info").innerHTML = "";
+      document.getElementById("user-info").style.marginBottom = "-15px";
+    }
+
+    if(shipping == "False" && user != "AnonymousUser"){
+      document.getElementById("checkoutForm-container").classList.add("hidden");
+      document.getElementById("payment-info").classList.remove("hidden");
+    }
+    
+    let checkoutForm = document.getElementById("checkout-form");
+
+    checkoutForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      console.log("Form submited...");
+      document.getElementById("form-button").classList.add("hidden");
+      document.getElementById("payment-info").classList.remove("hidden");
+    });
+    
+    {% comment %} document.getElementById("make-payment").addEventListener("click", function(){
+      submitFormData();
+    }); {% endcomment %}
+    
+    function submitFormData(){
+      console.log("Payment button clicked");
+
+      let userFormData = {
+        'name': null,
+        'email': null,
+        'total': total,
+      }
+
+      let shippingInfo = {
+        'address': null,
+        'city': null,
+        'state': null,
+        'zipcode': null,
+      }
+
+      if(shipping != "False"){
+        shippingInfo.address = checkoutForm.address.value;
+        shippingInfo.city = checkoutForm.city.value;
+        shippingInfo.state = checkoutForm.state.value;
+        shippingInfo.zipcode = checkoutForm.zipcode.value;
+      }
+
+      if(user == "AnonymousUser"){
+        userFormData.name = checkoutForm.name.value.trim();
+        userFormData.email = checkoutForm.email.value.trim();
+      }
+
+      let url = "/process_order/"
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify({'form': userFormData, 'shipping': shippingInfo}),
+      }).then((response) => response.json()).then((data) => {
+        console.log('Success:', data);
+        alert('Transiaction completed');
+        cart = {};
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        window.location.href = "{% url 'store' %}"
+      });
+    }
+  </script>
+{% endblock content %}

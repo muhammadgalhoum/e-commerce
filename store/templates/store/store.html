@@ -1,0 +1,72 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      {% if messages %}
+        <div class="info-msg">
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="store">
+        <div class="items">
+          {% for product in products %}
+            <div class="item">
+              <div class="image">
+                <img src="{{product.imageURL}}" alt="item image">
+              </div>
+              <div class="product-data">
+                <h6>{{product.name|title}}</h6>
+                <hr/>
+                <div class="info">
+                  <div class="btns">
+                    <button data-product="{{product.id}}" data-action="add" type="button" class="update-cart">Add to Cart</button>
+                    <a href="{% url 'product-detail' product.id %}">view</a>
+                  </div>
+                  <p>$<span class="price">{{product.price}}</span></p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% if products.has_other_pages %}
+          <ul class="pagination-ul">
+            {% if products.has_previous %}
+              <li>
+                <a href="?page={{ products.previous_page_number }}">
+                  <span>&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <span>&laquo;</span>
+              </li>
+            {% endif %}
+
+            {% for p in products.paginator.page_range %}
+              {% if products.number == p %}
+                <li><a style="color: red;" href="#">{{ p }}</a></li>
+              {% else %}
+                <li><a href="?page={{ p }}">{{ p }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+              <li>
+                <a  href="?page={{ products.next_page_number }}">
+                  <span>&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <span>&raquo;</span>
+              </li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

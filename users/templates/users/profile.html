@@ -1,0 +1,32 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      {% if messages %}
+        <div class="info-msg">
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="profile-info">
+        <h4>Hello, {{user.username}}</h4>
+        <div class="profile-links">
+          <a href="{% url 'password_reset' %}">reset paaaword</a>
+          <a href="{% url 'delete_account' user.id %}">delete account</a>
+        </div>
+      </div>
+      <div class="profile-pic">
+        <img src="{{user.profile.imageURL}}" width="100px" alt="f'{{request.user}} profile-pic'">
+      </div>
+      <form class="profile-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{u_form|crispy}}
+        {{p_form|crispy}}
+          <input type="submit" value="save"/>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

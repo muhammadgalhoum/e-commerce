@@ -1,0 +1,69 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      {% if search_results|length == 0 %}
+        <p class="error-msg">Your search '{{ query }}' did not match any product!</p>
+      {% else %}
+        <div class="store">
+          <div class="items">
+            {% for product in search_results %}
+              <div class="item">
+                <div class="image">
+                  <img src="{{product.imageURL}}" alt="item image">
+                </div>
+                <div class="product-data">
+                  <h6>{{product.name|title}}</h6>
+                  <hr/>
+                  <div class="info">
+                    <div class="btns">
+                      <button data-product="{{product.id}}" data-action="add" type="button" class="update-cart">Add to Cart</button>
+                      <a href="{% url 'product-detail' product.id %}">view</a>
+                    </div>
+                    <p>$<span class="price">{{product.price}}</span></p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% if products.has_other_pages %}
+          <ul class="pagination-ul">
+            {% if products.has_previous %}
+              <li>
+                <a href="?page={{ products.previous_page_number }}">
+                  <span>&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <span>&laquo;</span>
+              </li>
+            {% endif %}
+
+            {% for p in products.paginator.page_range %}
+              {% if products.number == p %}
+                <li><a style="color: red;" href="#">{{ p }}</a></li>
+              {% else %}
+                <li><a href="?page={{ p }}">{{ p }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+              <li>
+                <a  href="?page={{ products.next_page_number }}">
+                  <span>&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <span>&raquo;</span>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

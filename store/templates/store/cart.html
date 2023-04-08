@@ -1,0 +1,42 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      <div class="cart">
+        <div class="products-info">
+          <a href="{% url 'store' %}">&#x2190;  Continue Shoping</a>
+          <hr>
+          <div class="info">
+            <p class="items-count">Items: <span>{{order.get_cart_items}}</span></p>
+            <p class="total-price">Total Price: $<span>{{order.get_cart_total}}</span></p>
+            <a href="{% url 'checkout' %}">Checkout</a>
+          </div>
+        </div>
+        <div class="products-details">
+          {% for item in items %}
+            <div class="product">
+              <div class="pro-image">
+                <img src="{{item.product.imageURL}}" alt="product image">
+                <h4>{{item.product.name|title}}</h4>
+              </div>
+              <div class="pro-data">
+                <p class="pro-price">Price: $<span>{{item.product.price}}</span></p>
+                <div class="pro-quantity">
+                  Quantity: 
+                  <input class="update-cart" data-product="{{item.product.id}}" data-action="remove" type="button" value="-">
+                  {% comment %} <input id="product-quantity" type="number" min="0" value="{{item.quantity}}" readonly> {% endcomment %}
+                  <span id="product-quantity">{{item.quantity}}</span>
+                  <input class="update-cart" data-product="{{item.product.id}}" data-action="add" type="button" value="+">
+                </div>
+                <p class="pro-subtotal">SubTotal: $<span>{{item.get_total}}</span></p>
+                {% comment %} <p class="pro-subtotal">SubTotal: $<span>{{item.product.price|mul:item.quantity}}</span></p> {% endcomment %}
+              </div>
+            </div>
+            <hr/>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

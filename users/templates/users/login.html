@@ -1,0 +1,33 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      {% if messages %}
+        <div class="info-msg">
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <form method="POST" class="user-login-form">
+        {% csrf_token %}
+        <label>Username*<label>
+        <input type="text" name="username"/>
+        <label>Password*<label>
+        <input type="password" name="password"/>
+        <div>
+          <button type="submit">Login</button>
+          <small>
+            <a href="#">Forgot Password?</a>
+          </small>
+        </div>
+        <div>
+          <small>
+            Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+          </small>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

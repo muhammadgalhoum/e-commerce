@@ -1,0 +1,67 @@
+nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  padding: 0 20px;
+  background-color: #03a9f4;
+}
+
+nav a {
+  color: white;
+}
+
+nav div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+nav div.menues a.logo img {
+  width: 30px;
+  max-width: 100%;
+}
+
+nav div.links a img {
+  width: 22px;
+}
+
+nav div.links a {
+  position: relative;
+}
+
+nav div.links a.cart::after {
+  position: absolute;
+  content: attr(data-count);
+  top: -5px;
+  left: 18px;
+  width: 15px;
+  height: 15px;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: red;
+}
+nav form {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  padding: 4px;
+  border-radius: 3px;
+  box-shadow: 1px 3px 5px 2px rgba(214, 214, 214, 1);
+}
+
+nav form input[type="search"] {
+  padding: 2px 4px;
+}
+
+nav form input[type="submit"] {
+  cursor: pointer;
+  padding: 2px 4px;
+}

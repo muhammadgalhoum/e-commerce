@@ -1,0 +1,30 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      <div class="header">
+        <a href="{% url 'store' %}">&#x2190; Continue Shoping</a>
+      </div>
+      <div class="product-info">
+        <div class="image">
+          <img src={{product.imageURL}} alt="{{product.name}} Image">
+        </div>
+        <div class="all-data">
+          <h3>{{product.name|title}}</h3>
+          <p class="desc">{{product.desc|linebreaks}}</p>
+          <p class="price">${{product.price}}</p>
+          <div class="control-btns">
+            <button data-product="{{product.id}}" data-action="add" type="button" class="update-cart">Add to Cart</button>
+            {% if request.user.is_authenticated %}
+              {% if request.user.is_staff %}
+                <a href="{% url 'update-product' product.id %}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="{% url 'delete-product' product.id %}">Delete <i class="fa-solid fa-trash-can"></i></a>
+              {% endif %}
+            {% endif %}
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

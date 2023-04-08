@@ -1,0 +1,29 @@
+{% extends "store/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      {% if messages %}
+        <div class="info-msg">
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <form method="POST" class="delete-form">
+        {% csrf_token %}
+        <h4 class="border-bottom mb-4">Delete your account</h4>
+        <p>
+          Are you sure you want to delete your account?
+          This will permanently delete your
+          profile and any content you have generated.
+        </p>
+        {{ form|crispy }}
+        <div>
+          <button type="submit">Delete</button>
+          <a href="{% url 'profile' %}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

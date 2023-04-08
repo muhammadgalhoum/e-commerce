@@ -1,0 +1,20 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+      <form method="POST" class="pro-delete-form">
+        {% csrf_token %}
+        <h4>
+          Are you sure you want to delete this Product?
+          This will permanently delete it.
+        </h4>
+        {{ pro_delete_form|crispy }}
+        <div class="del-cancel-div">
+          <button type="submit">Yes, Delete</button>
+          <a href="{% url 'store' %}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
