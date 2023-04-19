@@ -1,6 +1,6 @@
-# Welcome to our E-commerce website
+# Welcome to the E-commerce website
 
-E-commerce website built with Django framework.
+E-commerce website built with the Django framework.
 
 ---
 
